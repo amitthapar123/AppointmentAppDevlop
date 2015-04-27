@@ -24,21 +24,40 @@ public class Schedule implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Config config;
-	@Indexed
-	private String duration;
 	@Id
 	private ObjectId id;
+	@Indexed(unique=true)
+	private String orgShortName;
+	private Config config;
+
+	private int duration;
+
 	private Long durationId;
 	private String status;
-	private String threshold;
-	private String resourceCount;
+	private int threshold;
+	private int resourceCount;
+	public Schedule(){
+		
+	}
+	public Schedule(Config config){
+		this.config=config;
+		this.duration=config.getEndHr()-config.getStartHr()+1;
+		this.threshold=config.getFrequency()*60/config.getMinTimePerResource();
+	}
 
 	/**
 	 * @return the config
 	 */
 	public Config getConfig() {
 		return config;
+	}
+
+	public ObjectId getId() {
+		return id;
+	}
+
+	public void setId(ObjectId id) {
+		this.id = id;
 	}
 
 	/**
@@ -52,15 +71,16 @@ public class Schedule implements Serializable {
 	/**
 	 * @return the duration
 	 */
-	public String getDuration() {
-		return duration;
+	public int getDuration() {
+		
+		return this.duration;
 	}
 
 	/**
 	 * @param duration
 	 *            the duration to set
 	 */
-	public void setDuration(String duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
@@ -84,22 +104,23 @@ public class Schedule implements Serializable {
 	/**
 	 * @return the threshold
 	 */
-	public String getThreshold() {
-		return threshold;
+	public int getThreshold() {
+		
+		return this.threshold ;
 	}
 
 	/**
 	 * @param threshold
 	 *            the threshold to set
 	 */
-	public void setThreshold(String threshold) {
-		this.threshold = threshold;
+	public void setThreshold(int resourceCount){
+		this.threshold *= resourceCount;
 	}
 
 	/**
 	 * @return the resourceCount
 	 */
-	public String getResourceCount() {
+	public int getResourceCount() {
 		return resourceCount;
 	}
 
@@ -107,16 +128,19 @@ public class Schedule implements Serializable {
 	 * @param resourceCount
 	 *            the resourceCount to set
 	 */
-	public void setResourceCount(String resourceCount) {
+	public void setResourceCount(int resourceCount) {
+		setThreshold(resourceCount);
 		this.resourceCount = resourceCount;
 	}
 
-	public ObjectId getId() {
-		return id;
+	
+
+	public String getOrgShortName() {
+		return orgShortName;
 	}
 
-	public void setId(ObjectId id) {
-		this.id = id;
+	public void setOrgShortName(String orgShortName) {
+		this.orgShortName = orgShortName;
 	}
 
 	public Long getDurationId() {

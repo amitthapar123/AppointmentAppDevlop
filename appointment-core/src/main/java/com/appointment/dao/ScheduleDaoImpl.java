@@ -15,7 +15,7 @@ import com.appointment.domain.Schedule;
  * 
  */
 @Repository("scheduleDao")
-public class ScheduleDaoImpl extends AbstractBaseDao<Schedule> {
+public class ScheduleDaoImpl extends AbstractBaseDao<Schedule> implements ScheduleDao{
 
 	/**
 	 * 
@@ -25,22 +25,17 @@ public class ScheduleDaoImpl extends AbstractBaseDao<Schedule> {
 	@Override
 	public Schedule update(Schedule entity) {
 
-		ApplicationContext ctx = new GenericXmlApplicationContext(
-				"spring-config.xml");
-
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
-
-		Query searchUserQuery = new Query(Criteria.where("id").is(
-				entity.getId().toString()));
-
-		mongoOperation.remove(searchUserQuery, Schedule.class);
-
-		entity.setId(new ObjectId());
-
-		mongoOperation.save(entity);
+				mongoTemplate.save(entity);
 
 		return entity;
+	}
+
+	@Override
+	public Schedule getScheduleByOrgShortName(String orgShortName) {
+		
+		Query searchQuery=new Query();
+		searchQuery.addCriteria(Criteria.where("orgShortName").is(orgShortName));
+		return mongoTemplate.findOne(searchQuery, Schedule.class);
 	}
 
 }

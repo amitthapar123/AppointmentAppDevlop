@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 
 public interface BaseDao<T> {
 
-	T selectByPk(ObjectId id, Class<T> entityClass);
+	T selectByPk(ObjectId objectId, Class<T> entityClass);
 
 	T insert(T entity);
 

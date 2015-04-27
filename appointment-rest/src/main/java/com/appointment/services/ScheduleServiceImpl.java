@@ -8,16 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.appointment.bo.BaseBO;
+import com.appointment.bo.ScheduleBO;
 import com.appointment.domain.Schedule;
 
 
 @Service("scheduleService")
-public class ScheduleServiceImpl implements BaseService<Schedule> {
+public class ScheduleServiceImpl implements ScheduleService {
 
 	private static final Logger logger = Logger
 			.getLogger(ScheduleServiceImpl.class);
 	@Autowired
-	private BaseBO<Schedule> baseBO;
+	private ScheduleBO baseBO;
 
 	@Override
 	public Schedule get(ObjectId id) {
@@ -55,6 +56,10 @@ public class ScheduleServiceImpl implements BaseService<Schedule> {
 		logger.debug("removing the Schedule");
 		baseBO.remove(entity, entityClass);
 	
+	}
+	@Override
+	public List<String> getSlots(String orgShortName) {
+		return baseBO.getSlots(orgShortName);
 	}
 
 }

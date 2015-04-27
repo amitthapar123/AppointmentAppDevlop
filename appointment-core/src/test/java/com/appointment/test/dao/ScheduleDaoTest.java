@@ -48,14 +48,13 @@ public class ScheduleDaoTest {
 
 	@Test
 	public void testSchedule_Delete() {
-		Schedule Schedule = createSchedule();
+		Schedule schedule = createSchedule();
 
-		Schedule insertedSchedule = dao.insert(Schedule);
+	
 
-		Schedule insertedSch = dao
-				.selectByPk(Schedule.getId(), Schedule.class);
-		dao.delete(insertedSch, Schedule.class);
-		Schedule deleteSch = dao.selectByPk(insertedSchedule.getId(),
+		
+		dao.delete(schedule, Schedule.class);
+		Schedule deleteSch = dao.selectByPk(schedule.getId(),
 				Schedule.class);
 		Assert.assertNull("Schedule deleted", deleteSch);
 	}
@@ -101,32 +100,37 @@ public class ScheduleDaoTest {
 		insertedSchedule.setDurationId(new Long(2));
 		Schedule fetchSch = dao.update(insertedSchedule);
 		Assert.assertTrue("fetched and created should be same", fetchSch
-				.getId().equals(insertedSchedule.getId()));
+				.getOrgShortName().equals(insertedSchedule.getOrgShortName()));
 	}
 	
 	
 
 	private Schedule createSchedule() {
+		
+		Config config=createConfig();
+		
+		 
+		
 		Schedule schedule = new Schedule();
-		schedule.setConfig(this.createConfig());
-		schedule.setDuration("1");
+		schedule.setConfig(config);
 		schedule.setDurationId(new Long(1));
-		schedule.setId(new ObjectId());
-		schedule.setResourceCount("count");
-		schedule.setStatus("status");
-		schedule.setThreshold("Threshold");
-			
+		schedule.setOrgShortName("RABO");
+		schedule.setResourceCount(2);
+		schedule.setStatus("Available");
+		schedule.setId(new ObjectId("553804161b9c464c32db3f6a"));
+			System.out.println(schedule.getDuration());
 		return schedule;
 	}
 	
 	private Config createConfig() {
 		Config config = new Config();
-		config.setEndHr("8");
-		config.setFrequency("frequency");
-		config.setMinSlotPerResource("1");
-		config.setResources("Test");
-		config.setStartHr("1");
-		
+		config.setEndHr(17);
+		config.setFrequency(1);
+		config.setMinTimePerResource(30);
+		config.setResources(1);
+		config.setStartHr(9);
+		config.setResourcesType("Doctor");
+		config.setOrgShortName("RABO");
 		return config;
 	}
 	

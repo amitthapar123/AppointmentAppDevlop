@@ -13,6 +13,10 @@
 	<packaging>war</packaging>
 	<name>appointment-web Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
+	<properties>
+	<spring.version>4.1.5.RELEASE</spring.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>appointment-rest</groupId>
@@ -24,7 +28,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.0.5.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -34,34 +38,93 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>4.0.5.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.0.5.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
+		 <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+		 <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+          <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+		<dependency>
+			<groupId>appointment-core</groupId>
+			<artifactId>appointment-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>1.2.3.RELEASE</version>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>1.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>1.2.3.RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
+        
 	</dependencies>
 	<build>
 		<finalName>appointment-web</finalName>
 		<plugins>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-war-plugin</artifactId>
+	<version>2.3</version>
+	<configuration>
 
-					<packagingIncludes>
-						WEB-INF/web.xml,WEB-INF/classes/**,**/*.jsp,WEB-INF/lib/*.jar
-					</packagingIncludes>
+		
+		<warSourceDirectory>src/main/webapp</warSourceDirectory>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<manifest>
+			<addClasspath>true</addClasspath>
+		</manifest>
 
-					<manifest>
-						<addClasspath>true</addClasspath>
-					</manifest>
-
-				</configuration>
-			</plugin>
-			<plugin>
+	</configuration>
+</plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<configuration>
@@ -69,7 +132,19 @@
 					<wtpapplicationxml>true</wtpapplicationxml>
 					<wtpversion>2.0</wtpversion>
 				</configuration>
-			</plugin>
+			</plugin> -->
+			 <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.2.3.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -20,47 +21,75 @@ public class Config implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	private String orgShortName;
+	private int resources;
+	private int minTimePerResource;
+	private int startHr;
+	private int endHr;
+	private int frequency;
+	private String resourcesType;
 
-	private String resources;
-	private String minSlotPerResource;
-	private String startHr;
-	private String endHr;
-	private String frequency;
+	
+
+	public String getOrgShortName() {
+		return orgShortName;
+	}
+
+	public void setOrgShortName(String orgShortName) {
+		this.orgShortName = orgShortName;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getResourcesType() {
+		return resourcesType;
+	}
+
+	/**
+	 * @param resourcesType
+	 */
+	public void setResourcesType(String resourcesType) {
+		this.resourcesType = resourcesType;
+	}
+
+	
 
 	/**
 	 * @return the resources
 	 */
-	public String getResources() {
+	public int getResources() {
 		return resources;
 	}
 
 	/**
 	 * @param resources
-	 *            the resources to set
+	 *            the resources to set, total no of worker as doctor, barber etc
 	 */
-	public void setResources(String resources) {
+	public void setResources(int resources) {
 		this.resources = resources;
 	}
 
 	/**
-	 * @return the minSlotPerResource
+	 * @return the minTimePerResource
 	 */
-	public String getMinSlotPerResource() {
-		return minSlotPerResource;
+	public int getMinTimePerResource() {
+		return minTimePerResource;
 	}
 
 	/**
 	 * @param minSlotPerResource
 	 *            the minSlotPerResource to set
 	 */
-	public void setMinSlotPerResource(String minSlotPerResource) {
-		this.minSlotPerResource = minSlotPerResource;
+	public void setMinTimePerResource(int minTimePerResource) {
+		this.minTimePerResource = minTimePerResource;
 	}
 
 	/**
 	 * @return the startHr
 	 */
-	public String getStartHr() {
+	public int getStartHr() {
 		return startHr;
 	}
 
@@ -68,14 +97,14 @@ public class Config implements Serializable {
 	 * @param startHr
 	 *            the startHr to set
 	 */
-	public void setStartHr(String startHr) {
+	public void setStartHr(int startHr) {
 		this.startHr = startHr;
 	}
 
 	/**
 	 * @return the endHr
 	 */
-	public String getEndHr() {
+	public int getEndHr() {
 		return endHr;
 	}
 
@@ -83,14 +112,14 @@ public class Config implements Serializable {
 	 * @param endHr
 	 *            the endHr to set
 	 */
-	public void setEndHr(String endHr) {
+	public void setEndHr(int endHr) {
 		this.endHr = endHr;
 	}
 
 	/**
 	 * @return the frequency
 	 */
-	public String getFrequency() {
+	public int getFrequency() {
 		return frequency;
 	}
 
@@ -98,7 +127,7 @@ public class Config implements Serializable {
 	 * @param frequency
 	 *            the frequency to set
 	 */
-	public void setFrequency(String frequency) {
+	public void setFrequency(int frequency) {
 		this.frequency = frequency;
 	}
 

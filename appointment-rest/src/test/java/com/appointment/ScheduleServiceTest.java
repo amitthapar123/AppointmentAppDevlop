@@ -9,16 +9,20 @@ import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.appointment.domain.Config;
-import com.appointment.domain.Registration;
 import com.appointment.domain.Schedule;
 import com.appointment.services.BaseService;
 import com.appointment.test.dao.MyTestApplicationContext;
 
 @SuppressWarnings("deprecation")
-public class ScheduleServiceTest {
+public class ScheduleServiceTest   {
 
 	private static final Logger logger = Logger
 			.getLogger(ScheduleServiceTest.class);
@@ -104,27 +108,34 @@ public class ScheduleServiceTest {
 	
 	
 
-	private Schedule createSchedule() {
+private Schedule createSchedule() {
+		
+		Config config=createConfig();
+		
+		 
+		
 		Schedule schedule = new Schedule();
-		schedule.setConfig(this.createConfig());
-		schedule.setDuration("1");
+		schedule.setConfig(config);
+		schedule.setDuration(config.getEndHr()-config.getEndHr()+1);
 		schedule.setDurationId(new Long(1));
-		schedule.setId(new ObjectId());
-		schedule.setResourceCount("count");
-		schedule.setStatus("status");
-		schedule.setThreshold("Threshold");
+		schedule.setOrgShortName("RABO");
+		schedule.setResourceCount(2);
+		schedule.setStatus("Available");
+		schedule.setId(new ObjectId("553804161b9c464c32db3f6a"));
+		schedule.setThreshold((config.getFrequency()*60/config.getMinTimePerResource())*schedule.getResourceCount());
 			
 		return schedule;
 	}
 	
 	private Config createConfig() {
 		Config config = new Config();
-		config.setEndHr("8");
-		config.setFrequency("frequency");
-		config.setMinSlotPerResource("1");
-		config.setResources("Test");
-		config.setStartHr("1");
-		
+		config.setEndHr(17);
+		config.setFrequency(1);
+		config.setMinTimePerResource(30);
+		config.setResources(1);
+		config.setStartHr(9);
+		config.setResourcesType("Doctor");
+		config.setOrgShortName("RABO");
 		return config;
 	}
 	

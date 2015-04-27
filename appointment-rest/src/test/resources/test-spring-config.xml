@@ -10,24 +10,19 @@ http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
 http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx-3.1.xsd"
-	>
+	default-autowire="byName">
 
 	<import resource="test-spring-mongo-config.xml" />
-	<import resource="test-spring-config.xml" />
 
 
 	<!-- Enable autowiring via @Autowire annotations -->
 	<context:annotation-config />
 
 
-	
+	<context:component-scan base-package="com.appointment.dao">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
 
-	<context:component-scan base-package="com.appointment.services">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Service" />
-	</context:component-scan>
-	<context:component-scan base-package="com.appointment.bo">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Component" />
-	</context:component-scan>
+	
 </beans>
