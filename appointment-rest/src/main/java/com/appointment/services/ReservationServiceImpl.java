@@ -11,7 +11,7 @@ import com.appointment.bo.BaseBO;
 import com.appointment.domain.Reservation;
 
 @Service("reservationService")
-public class ReservationServiceImpl implements BaseService<Reservation> {
+public class ReservationServiceImpl implements ReservationService {
 
 	private static final Logger logger = Logger
 			.getLogger(ReservationServiceImpl.class);
@@ -24,12 +24,14 @@ public class ReservationServiceImpl implements BaseService<Reservation> {
 		Reservation Reservation = baseBO.get(id, Reservation.class);
 		return Reservation;
 	}
+
 	@Override
 	public Reservation add(Reservation res) {
 		logger.debug("Adding a new Reservation instance");
 		Reservation Reservation = baseBO.add(res);
 		return Reservation;
 	}
+
 	@Override
 	public Reservation modify(Reservation res) {
 		logger.debug("Modifying the Reservation instance");
@@ -43,17 +45,25 @@ public class ReservationServiceImpl implements BaseService<Reservation> {
 		List<Reservation> fetched = baseBO.getAll(Reservation.class);
 		return fetched;
 	}
+
 	@Override
 	public Long countAll(Class<Reservation> entityClass) {
 		logger.debug("Counting the Reservations");
 		long recordCount = baseBO.countAll(Reservation.class);
 		return recordCount;
 	}
+
 	@Override
 	public void remove(Reservation entity, Class<Reservation> entityClass) {
 		logger.debug("removing the Reservation");
 		baseBO.remove(entity, entityClass);
-	
+
+	}
+
+	@Override
+	public int getReservationCount(String orgShortName) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

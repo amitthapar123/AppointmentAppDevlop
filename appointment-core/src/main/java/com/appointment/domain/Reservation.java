@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @Entity
 @Table(name = "Reservation")
 @Document(collection = "Reservation")
-public class Reservation implements Serializable{
+public class Reservation implements Serializable {
 
 	/**
 	 * 
@@ -27,85 +27,102 @@ public class Reservation implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	private ObjectId id;
-    private Long durationId;
-    private Long reservationId;
-    private Customer customer;
-    @DateTimeFormat(iso = ISO.DATE_TIME)
+	private String slot;
+	private Long reservationId;
+	private Customer customer;
+	@DateTimeFormat(iso = ISO.DATE)
 	private Date reservationDate;
-    @DateTimeFormat(iso = ISO.DATE_TIME)
+	@DateTimeFormat(iso = ISO.DATE_TIME)
 	private Date createDate;
+
 	/**
 	 * @return the id
 	 */
 	public ObjectId getId() {
 		return id;
 	}
+
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
+
 	/**
-	 * @return the durationId
+	 * @return the slot
 	 */
-	public Long getDurationId() {
-		return durationId;
+	public String getSlot() {
+		return slot;
 	}
+
 	/**
-	 * @param durationId the durationId to set
+	 * @param slot
+	 *            the String
 	 */
-	public void setDurationId(Long durationId) {
-		this.durationId = durationId;
+	public void setSlot(String slot) {
+		this.slot = slot;
 	}
+
 	/**
 	 * @return the reservationId
 	 */
 	public Long getReservationId() {
 		return reservationId;
 	}
+
 	/**
-	 * @param reservationId the reservationId to set
+	 * @param reservationId
+	 *            the reservationId to set
 	 */
 	public void setReservationId(Long reservationId) {
 		this.reservationId = reservationId;
 	}
+
 	/**
 	 * @return the customer
 	 */
 	public Customer getCustomer() {
 		return customer;
 	}
+
 	/**
-	 * @param customer the customer to set
+	 * @param customer
+	 *            the customer to set
 	 */
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
 	/**
 	 * @return the reservationDate
 	 */
 	public Date getReservationDate() {
 		return reservationDate;
 	}
+
 	/**
-	 * @param reservationDate the reservationDate to set
+	 * @param reservationDate
+	 *            the reservationDate to set
 	 */
 	public void setReservationDate(Date reservationDate) {
 		this.reservationDate = reservationDate;
 	}
+
 	/**
 	 * @return the createDate
 	 */
 	public Date getCreateDate() {
 		return createDate;
 	}
+
 	/**
-	 * @param createDate the createDate to set
+	 * @param createDate
+	 *            the createDate to set
 	 */
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-    
-    
+
 }

@@ -9,9 +9,9 @@ import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.appointment.dao.BaseDao;
+import com.appointment.dao.CounterDao;
 import com.appointment.domain.Customer;
 import com.appointment.domain.Reservation;
 
@@ -19,8 +19,10 @@ public class ReservationDaoTest {
 	private static final Logger logger = Logger
 			.getLogger(ReservationDaoTest.class);
 	static Process p = null;
-	@Autowired
+
 	private BaseDao<Reservation> dao;
+
+	private CounterDao counterDao;
 
 	protected ObjectId id = null;
 
@@ -32,10 +34,12 @@ public class ReservationDaoTest {
 
 		dao = (BaseDao<Reservation>) MyTestApplicationContext.getInstance()
 				.getBean("reservationDao");
+		counterDao = (CounterDao) MyTestApplicationContext.getInstance()
+				.getBean("counterDao");
 	}
-	
+
 	@Test
-	public void testReservation_Insert() {
+	public void testReservation_Insert() throws Exception {
 		Reservation Reservation = createReservation();
 
 		Reservation insertedReservation = dao.insert(Reservation);
@@ -46,13 +50,13 @@ public class ReservationDaoTest {
 	}
 
 	@Test
-	public void testReservation_Delete() {
+	public void testReservation_Delete() throws Exception {
 		Reservation Reservation = createReservation();
 
 		Reservation insertedReservation = dao.insert(Reservation);
 
-		Reservation insertedRes = dao
-				.selectByPk(Reservation.getId(), Reservation.class);
+		Reservation insertedRes = dao.selectByPk(Reservation.getId(),
+				Reservation.class);
 		dao.delete(insertedRes, Reservation.class);
 		Reservation deleteRes = dao.selectByPk(insertedReservation.getId(),
 				Reservation.class);
@@ -60,7 +64,7 @@ public class ReservationDaoTest {
 	}
 
 	@Test
-	public void testReservation_Find() {
+	public void testReservation_Find() throws Exception {
 		Reservation Reservation = createReservation();
 
 		Reservation insertedReservation = dao.insert(Reservation);
@@ -72,7 +76,7 @@ public class ReservationDaoTest {
 	}
 
 	@Test
-	public void testReservation_FindAll() {
+	public void testReservation_FindAll() throws Exception {
 		Reservation Reservation = createReservation();
 
 		List<Reservation> fetched = dao.findAll(Reservation.class);
@@ -82,7 +86,7 @@ public class ReservationDaoTest {
 	}
 
 	@Test
-	public void testReservation_CountAll() {
+	public void testReservation_CountAll() throws Exception {
 		Reservation Reservation = createReservation();
 
 		long recordCount = dao.countAll(Reservation.class);
@@ -90,34 +94,32 @@ public class ReservationDaoTest {
 		Assert.assertTrue("fetched size should be greater than zero",
 				recordCount > 0);
 	}
-	
 
 	@Test
-	public void testReservation_Update() {
+	public void testReservation_Update() throws Exception {
 		Reservation Reservation = createReservation();
 
 		Reservation insertedReservation = dao.insert(Reservation);
-		insertedReservation.setDurationId(new Long(2));
+		Reservation.setSlot("10:00 - 11:00 ");
 		Reservation fetchRes = dao.update(insertedReservation);
 		Assert.assertTrue("fetched and created should be same", fetchRes
 				.getId().equals(insertedReservation.getId()));
 	}
-	
-	
 
-	private Reservation createReservation() {
+	private Reservation createReservation() throws Exception {
 		Reservation Reservation = new Reservation();
 		Customer cus = this.createCustmer();
 		Reservation.setCustomer(cus);
 		Reservation.setCreateDate(new Date());
-		Reservation.setDurationId(new Long(1));
+		Reservation.setSlot("9:00 - 10:00 ");
 		Reservation.setId(new ObjectId());
 		Reservation.setReservationDate(new Date());
-		Reservation.setReservationId(new Long(1));
-		
+		Reservation.setReservationId(counterDao
+				.getNextSequence("RESERVATION_SEQ"));
+
 		return Reservation;
 	}
-	
+
 	private Customer createCustmer() {
 		Customer customer = new Customer();
 		customer.setName("amit");
@@ -126,7 +128,6 @@ public class ReservationDaoTest {
 		customer.setMobile(new Long("08803010194"));
 		return customer;
 	}
-
 
 	// @BeforeClass
 	public static void beforeClass() throws Exception {

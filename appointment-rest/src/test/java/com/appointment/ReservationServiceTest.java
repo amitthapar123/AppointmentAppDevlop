@@ -6,7 +6,6 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,19 +17,20 @@ import com.appointment.services.BaseService;
 import com.appointment.test.dao.MyTestApplicationContext;
 
 public class ReservationServiceTest {
-	
+
 	static Process p = null;
 	@Autowired
 	private BaseService<Reservation> service;
 
 	protected ObjectId id = null;
 
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
 		BasicConfigurator.configure();
 
-		service = (BaseService<Reservation>) MyTestApplicationContext.getInstance()
-				.getBean("reservationService");
+		service = (BaseService<Reservation>) MyTestApplicationContext
+				.getInstance().getBean("reservationService");
 	}
 
 	@Test
@@ -43,19 +43,20 @@ public class ReservationServiceTest {
 		Assert.assertNotNull(" Reservation inserted", insertedRes);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testReservation_Delete() {
-		Reservation Reservation = createReservation();
+		Reservation reservation = createReservation();
 
-		Reservation insertedReservation = service.add(Reservation);
+		Reservation insertedReservation = service.add(reservation);
 
-		Reservation insertedRes = service
-				.get(Reservation.getId());
+		Reservation insertedRes = service.get(reservation.getId());
 		service.remove(insertedRes, Reservation.class);
 		Reservation deleteRes = service.get(insertedReservation.getId());
 		Assert.assertNull("Reservation deleted", deleteRes);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testReservation_Find() {
 		Reservation Reservation = createReservation();
@@ -69,7 +70,7 @@ public class ReservationServiceTest {
 
 	@Test
 	public void testReservation_FindAll() {
-		Reservation Reservation = createReservation();
+		Reservation reservation = createReservation();
 
 		List<Reservation> fetched = service.getAll(Reservation.class);
 
@@ -86,34 +87,31 @@ public class ReservationServiceTest {
 		Assert.assertTrue("fetched size should be greater than zero",
 				recordCount > 0);
 	}
-	
 
 	@Test
 	public void testReservation_Update() {
 		Reservation Reservation = createReservation();
 
 		Reservation insertedReservation = service.add(Reservation);
-		insertedReservation.setDurationId(new Long(2));
+		insertedReservation.setSlot("9:00 - 10:00 ");
 		Reservation fetchRes = service.modify(insertedReservation);
 		Assert.assertTrue("fetched and created should be same", fetchRes
 				.getId().equals(insertedReservation.getId()));
 	}
-	
-	
 
 	private Reservation createReservation() {
 		Reservation Reservation = new Reservation();
 		Customer cus = this.createCustmer();
 		Reservation.setCustomer(cus);
 		Reservation.setCreateDate(new Date());
-		Reservation.setDurationId(new Long(1));
+		Reservation.setSlot("9:00 - 10:00 ");
 		Reservation.setId(new ObjectId());
 		Reservation.setReservationDate(new Date());
 		Reservation.setReservationId(new Long(1));
-		
+
 		return Reservation;
 	}
-	
+
 	private Customer createCustmer() {
 		Customer customer = new Customer();
 		customer.setName("amit");
@@ -122,7 +120,6 @@ public class ReservationServiceTest {
 		customer.setMobile(new Long("08803010194"));
 		return customer;
 	}
-
 
 	// @BeforeClass
 	public static void beforeClass() throws Exception {
@@ -135,7 +132,6 @@ public class ReservationServiceTest {
 
 		p = pb.start();
 
-		
 	}
 
 	// @AfterClass
@@ -152,7 +148,7 @@ public class ReservationServiceTest {
 
 					processClosed = true;
 					Thread.sleep(500);
-					} catch (IllegalThreadStateException itse) {
+				} catch (IllegalThreadStateException itse) {
 					processClosed = false;
 				}
 			}
@@ -160,5 +156,4 @@ public class ReservationServiceTest {
 
 	}
 
-	
 }

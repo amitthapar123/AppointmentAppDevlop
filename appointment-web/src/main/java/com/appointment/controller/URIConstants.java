@@ -6,6 +6,7 @@ public class URIConstants {
 	public static final String GET_ALL_SCHEDULE = "/rest/schedules";
 	public static final String GET_SLOTS = "/rest/schedules/{orgname}";
 	public static final String ADD_SCHEDULE = "/rest/schedules/add";
+	public static final String ADD_RESERVATION = "/rest/reservation/add";
 	public static final String CREATE_EMP = "/rest/emp/create";
 	public static final String DELETE_EMP = "/rest/emp/delete/{id}";
 }
